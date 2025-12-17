@@ -7,22 +7,22 @@ interface KPICardProps {
   value: number;
   suffix?: string;
   icon: LucideIcon;
-  color: 'cyan' | 'magenta' | 'purple' | 'emerald';
+  color: 'blue' | 'purple' | 'emerald' | 'amber';
   delay?: number;
 }
 
 const colorClasses = {
-  cyan: 'neon-text-cyan',
-  magenta: 'neon-text-magenta',
-  purple: 'text-neon-purple',
-  emerald: 'text-emerald-400',
+  blue: 'text-primary',
+  purple: 'text-violet-600',
+  emerald: 'text-emerald-600',
+  amber: 'text-amber-600',
 };
 
-const glowClasses = {
-  cyan: 'neon-glow-cyan',
-  magenta: 'neon-glow-magenta',
-  purple: 'neon-glow-purple',
-  emerald: 'shadow-[0_0_20px_rgba(52,211,153,0.3)]',
+const bgClasses = {
+  blue: 'bg-primary/10',
+  purple: 'bg-violet-100',
+  emerald: 'bg-emerald-100',
+  amber: 'bg-amber-100',
 };
 
 const KPICard = ({ title, value, suffix = '', icon: Icon, color, delay = 0 }: KPICardProps) => {
@@ -64,12 +64,12 @@ const KPICard = ({ title, value, suffix = '', icon: Icon, color, delay = 0 }: KP
     >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm text-muted-foreground mb-2">{title}</p>
-          <p className={`text-4xl font-bold ${colorClasses[color]}`}>
+          <p className="text-sm text-muted-foreground mb-2 font-medium">{title}</p>
+          <p className={`text-4xl font-bold tracking-tight ${colorClasses[color]}`}>
             {displayValue.toLocaleString()}{suffix}
           </p>
         </div>
-        <div className={`p-3 rounded-xl bg-background/50 ${glowClasses[color]}`}>
+        <div className={`p-3 rounded-2xl ${bgClasses[color]}`}>
           <Icon className={`w-6 h-6 ${colorClasses[color]}`} />
         </div>
       </div>

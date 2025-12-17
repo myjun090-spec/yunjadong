@@ -13,8 +13,8 @@ const GlassCard = ({ children, className, neon = false, hover = true, style }: G
   return (
     <div 
       className={cn(
-        neon ? 'glass-card-neon' : 'glass-card',
-        hover && 'transition-all duration-300 hover:scale-[1.02] hover:shadow-lg',
+        neon ? 'apple-card-glass' : 'apple-card',
+        hover && 'transition-all duration-300',
         className
       )}
       style={style}

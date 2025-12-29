@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', -apple-system, sans-serif;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 450px;
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .credentials-section {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .credentials-section h4 {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .btn-save {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #059669;
+        }
+
+        .btn-send {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-send:hover {
+            background: #0052a3;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>💬 문자 발송 설정</h3>
+
+        <div class="form-group">
+            <label for="message">문자 내용:</label>
+            <textarea id="message" placeholder="예: 안녕하세요 {성함}님, 내일 행사가 예정되어 있습니다."></textarea>
+            <div class="hint">* {성함}, {핸드폰번호} 태그를 사용할 수 있습니다.</div>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="useFilter" onchange="toggleFilter()">
+                <label for="useFilter">특정 조건으로 필터링하기</label>
+            </div>
+        </div>
+
+        <div id="filterSection"
+            style="display: none; background: #f0f9ff; padding: 16px; border-radius: 6px; margin-bottom: 18px; border: 1px solid #0066cc;">
+            <div class="form-group">
+                <label for="filterColumn">필터링 기준 열:</label>
+                <select id="filterColumn">
+                    <option value="COL_INTEREST">관심사 (E열)</option>
+                    <option value="COL_NAME">성함 (A열)</option>
+                    <option value="COL_PHONE">핸드폰번호 (B열)</option>
+                    <option value="COL_EMAIL">이메일 (D열)</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+                <div style="flex: 1;">
+                    <label for="dataType">데이터 타입:</label>
+                    <select id="dataType">
+                        <option value="text">텍스트</option>
+                        <option value="number">숫자</option>
+                    </select>
+                </div>
+
+                <div style="flex: 1;">
+                    <label for="filterCondition">필터 조건:</label>
+                    <select id="filterCondition">
+                        <option value="equals">정확히 일치</option>
+                        <option value="contains">포함</option>
+                        <option value="startsWith">시작</option>
+                        <option value="endsWith">끝</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="filterValue">값:</label>
+                <input type="text" id="filterValue" placeholder="예: 프로그래밍">
+            </div>
+        </div>
+
+        <div class="credentials-section">
+            <h4>Solapi 인증 정보 (필수) / 정보 저장 후 발송 가능</h4>
+
+            <div class="form-group">
+                <label for="apiKey">API Key:</label>
+                <input type="password" id="apiKey" placeholder="Solapi에서 발급받은 API Key">
+            </div>
+
+            <div class="form-group">
+                <label for="secretKey">Secret Key:</label>
+                <input type="password" id="secretKey" placeholder="Solapi에서 발급받은 Secret Key">
+            </div>
+
+            <div class="form-group">
+                <label for="senderPhone">발신 번호:</label>
+                <input type="text" id="senderPhone" placeholder="예: 01012345678 (하이픈 없이)">
+                <div class="hint">* Solapi에 등록된 발신번호를 입력하세요.</div>
+            </div>
+        </div>
+
+        <button class="btn btn-save" onclick="saveSettings()">⚙️ 설정 저장</button>
+        <button class="btn btn-send" onclick="sendSMS()">문자 발송 시작</button>
+    </div>
+
+    <script>
+        function toggleFilter() {
+            const filterSection = document.getElementById('filterSection');
+            const useFilter = document.getElementById('useFilter').checked;
+            filterSection.style.display = useFilter ? 'block' : 'none';
+        }
+
+        // 페이지 로드 시 저장된 설정 불러오기
+        window.onload = function () {
+            google.script.run
+                .withSuccessHandler(function (config) {
+                    if (config) {
+                        document.getElementById('apiKey').value = config.apiKey || '';
+                        document.getElementById('secretKey').value = config.secretKey || '';
+                        document.getElementById('senderPhone').value = config.senderPhone || '';
+                    }
+                })
+                .getSMSConfig();
+        };
+
+        function saveSettings() {
+            const apiKey = document.getElementById('apiKey').value;
+            const secretKey = document.getElementById('secretKey').value;
+            const senderPhone = document.getElementById('senderPhone').value;
+
+            if (!apiKey || !secretKey || !senderPhone) {
+                alert('모든 인증 정보를 입력해주세요.');
+                return;
+            }
+
+            google.script.run
+                .withSuccessHandler(function (result) {
+                    alert(result);
+                })
+                .withFailureHandler(function (error) {
+                    alert('저장 실패: ' + error.message);
+                })
+                .saveSMSConfig(apiKey, secretKey, senderPhone);
+        }
+
+        function sendSMS() {
+            const message = document.getElementById('message').value;
+            const apiKey = document.getElementById('apiKey').value;
+            const secretKey = document.getElementById('secretKey').value;
+            const senderPhone = document.getElementById('senderPhone').value;
+
+            if (!message) {
+                alert('문자 내용을 입력해주세요.');
+                return;
+            }
+
+            if (!apiKey || !secretKey || !senderPhone) {
+                alert('먼저 "설정 저장" 버튼을 눌러 인증 정보를 저장해주세요.');
+                return;
+            }
+
+            // 필터링 정보 수집
+            const useFilter = document.getElementById('useFilter').checked;
+            let filterConfig = null;
+
+            if (useFilter) {
+                filterConfig = {
+                    column: document.getElementById('filterColumn').value,
+                    dataType: document.getElementById('dataType').value,
+                    condition: document.getElementById('filterCondition').value,
+                    value: document.getElementById('filterValue').value
+                };
+
+                if (!filterConfig.value) {
+                    alert('필터 값을 입력해주세요.');
+                    return;
+                }
+            }
+
+            google.script.run
+                .withSuccessHandler(function (result) {
+                    alert(result);
+                    google.script.host.close();
+                })
+                .withFailureHandler(function (error) {
+                    alert('오류: ' + error.message);
+                })
+                .sendCustomSMS(message, apiKey, secretKey, senderPhone, filterConfig);
+        }
+    </script>
+</body>
+
+</html>

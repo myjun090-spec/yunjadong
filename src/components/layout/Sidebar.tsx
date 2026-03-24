@@ -1,15 +1,24 @@
 import { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  Mail, 
-  Calendar, 
-  Bell, 
-  Globe, 
+import {
+  LayoutDashboard,
+  Mail,
+  Calendar,
+  Bell,
+  Globe,
   ChevronLeft,
   ChevronRight,
   Zap,
   Menu,
-  X
+  X,
+  Package,
+  PenTool,
+  MessageCircle,
+  Building2,
+  FileText,
+  FileCheck,
+  UserPlus,
+  Users,
+  Search
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -19,6 +28,15 @@ interface SidebarProps {
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'inventory', label: '엑셀 재고관리', icon: Package },
+  { id: 'blog', label: '블로그 글쓰기', icon: PenTool },
+  { id: 'kakao', label: '카톡 자동화', icon: MessageCircle },
+  { id: 'realestate', label: '부동산 수집', icon: Building2 },
+  { id: 'invoice', label: '명세서 자동화', icon: FileText },
+  { id: 'registry', label: '등기부등본 발급', icon: FileCheck },
+  { id: 'neighbor', label: '서로이웃 추가', icon: UserPlus },
+  { id: 'workforce', label: '인력배치', icon: Users },
+  { id: 'keyword', label: '황금 키워드', icon: Search },
   { id: 'mail', label: 'Mail & SMS', icon: Mail },
   { id: 'events', label: 'Event Manager', icon: Calendar },
   { id: 'alerts', label: 'Alerts', icon: Bell },

@@ -5,6 +5,15 @@ import MailPage from './MailPage';
 import EventsPage from './EventsPage';
 import AlertsPage from './AlertsPage';
 import CrawlerPage from './CrawlerPage';
+import InventoryPage from './InventoryPage';
+import BlogWriterPage from './BlogWriterPage';
+import KakaoTalkPage from './KakaoTalkPage';
+import RealEstatePage from './RealEstatePage';
+import InvoicePage from './InvoicePage';
+import RegistryPage from './RegistryPage';
+import NeighborPage from './NeighborPage';
+import WorkforcePage from './WorkforcePage';
+import KeywordPage from './KeywordPage';
 
 const Index = () => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
@@ -13,6 +22,24 @@ const Index = () => {
     switch (activeMenu) {
       case 'dashboard':
         return <DashboardPage />;
+      case 'inventory':
+        return <InventoryPage />;
+      case 'blog':
+        return <BlogWriterPage />;
+      case 'kakao':
+        return <KakaoTalkPage />;
+      case 'realestate':
+        return <RealEstatePage />;
+      case 'invoice':
+        return <InvoicePage />;
+      case 'registry':
+        return <RegistryPage />;
+      case 'neighbor':
+        return <NeighborPage />;
+      case 'workforce':
+        return <WorkforcePage />;
+      case 'keyword':
+        return <KeywordPage />;
       case 'mail':
         return <MailPage />;
       case 'events':

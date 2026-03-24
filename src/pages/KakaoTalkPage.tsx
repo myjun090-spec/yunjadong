@@ -87,6 +87,7 @@ const KakaoTalkPage = () => {
         <div className="flex gap-2">
           <DownloadButton
             programName="카톡 자동 발송기"
+            exeName="카톡자동화_Windows.exe"
             description="카카오톡 PC/Mac 앱을 제어하여 대화방에 메시지를 자동으로 전송합니다."
             folder="kakao"
             files={[

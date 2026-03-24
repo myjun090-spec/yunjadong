@@ -88,6 +88,7 @@ const RegistryPage = () => {
         <div className="flex gap-2">
           <DownloadButton
             programName="등기부등본 자동 발급"
+            exeName="등기부등본_Windows.exe"
             description="인터넷등기소에서 등기부등본을 자동으로 발급합니다."
             folder="registry"
             files={[

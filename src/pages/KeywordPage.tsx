@@ -92,6 +92,7 @@ const KeywordPage = () => {
         <div className="flex gap-2">
           <DownloadButton
             programName="황금 키워드 자동 발굴"
+            exeName="황금키워드_Windows.exe"
             description="네이버 검색량 API로 검색량 대비 경쟁이 낮은 황금 키워드를 자동 발견합니다."
             folder="keyword"
             files={[

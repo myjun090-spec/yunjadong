@@ -1,0 +1,113 @@
+name: Build Executables
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        program:
+          - { name: "kakao", entry: "kakao_auto_gui.py", display: "카톡자동화" }
+          - { name: "blog", entry: "blog_auto.py", display: "블로그자동화" }
+          - { name: "realestate", entry: "realestate_auto.py", display: "부동산수집" }
+          - { name: "registry", entry: "registry_auto.py", display: "등기부등본" }
+          - { name: "neighbor", entry: "neighbor_auto.py", display: "서로이웃추가" }
+          - { name: "keyword", entry: "keyword_auto_gui.py", display: "황금키워드" }
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          pip install -r public/downloads/${{ matrix.program.name }}/requirements.txt
+
+      - name: Build exe
+        run: |
+          cd public/downloads/${{ matrix.program.name }}
+          pyinstaller --onefile --windowed --name "${{ matrix.program.display }}_Windows" ${{ matrix.program.entry }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.program.name }}-windows
+          path: public/downloads/${{ matrix.program.name }}/dist/*.exe
+
+  build-mac:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        program:
+          - { name: "kakao", entry: "kakao_auto_gui.py", display: "카톡자동화" }
+          - { name: "blog", entry: "blog_auto.py", display: "블로그자동화" }
+          - { name: "realestate", entry: "realestate_auto.py", display: "부동산수집" }
+          - { name: "registry", entry: "registry_auto.py", display: "등기부등본" }
+          - { name: "neighbor", entry: "neighbor_auto.py", display: "서로이웃추가" }
+          - { name: "keyword", entry: "keyword_auto_gui.py", display: "황금키워드" }
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          pip install -r public/downloads/${{ matrix.program.name }}/requirements.txt
+
+      - name: Build macOS app
+        run: |
+          cd public/downloads/${{ matrix.program.name }}
+          pyinstaller --onefile --windowed --name "${{ matrix.program.display }}_Mac" ${{ matrix.program.entry }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.program.name }}-mac
+          path: public/downloads/${{ matrix.program.name }}/dist/*
+
+  release:
+    needs: [build-windows, build-mac]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List artifacts
+        run: find artifacts -type f | head -30
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name || 'latest' }}
+          name: "윤자동 자동화 프로그램 ${{ github.ref_name || 'latest' }}"
+          body: |
+            ## 자동화 프로그램 다운로드
+
+            ### Windows (.exe)
+            더블클릭으로 바로 실행 가능합니다.
+
+            ### Mac
+            다운로드 후 `chmod +x` 권한을 부여하고 실행하세요.
+
+            ### 프로그램 목록
+            - 카톡 자동화 - 카카오톡 대화방 자동 메시지 전송
+            - 블로그 자동화 - AI 글 생성 + 네이버 블로그 자동 포스팅
+            - 부동산 수집 - 네이버 부동산 매물 자동 크롤링
+            - 등기부등본 - 인터넷등기소 자동 발급
+            - 서로이웃 추가 - 네이버 블로그 서이추 자동화
+            - 황금 키워드 - 검색량 대비 경쟁 낮은 키워드 발굴
+          files: artifacts/**/*

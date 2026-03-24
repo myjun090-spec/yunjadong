@@ -69,6 +69,7 @@ const RealEstatePage = () => {
         <div className="flex gap-2">
           <DownloadButton
             programName="부동산 수집 자동화"
+            exeName="부동산수집_Windows.exe"
             description="네이버 부동산에서 매물 정보를 자동 수집하여 엑셀로 내보냅니다."
             folder="realestate"
             files={[

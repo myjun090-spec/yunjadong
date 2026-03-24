@@ -99,6 +99,7 @@ const BlogWriterPage = () => {
         <div className="flex gap-2">
           <DownloadButton
             programName="블로그 글쓰기 자동화"
+            exeName="블로그자동화_Windows.exe"
             description="ChatGPT API로 AI 글을 생성하고 Selenium으로 네이버 블로그에 자동 포스팅합니다."
             folder="blog"
             files={[

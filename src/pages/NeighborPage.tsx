@@ -73,6 +73,7 @@ const NeighborPage = () => {
         <div className="flex gap-2">
           <DownloadButton
             programName="서로이웃 자동 추가"
+            exeName="서로이웃추가_Windows.exe"
             description="네이버 블로그에서 키워드 검색 후 자동으로 서이추를 신청합니다."
             folder="neighbor"
             files={[
